@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import MedicineDetails from '../../components/Pharmacist/MedicineDetails';
 import MedicineEditForm from '../../components/Pharmacist/MedicineEditForm';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
-const PharmacistViewMedicines = () => {
-    const [medicines, setMedicines] = useState(null);
+const PharmacistViewMedicine = () => {
+    const [medicine, setMedicine] = useState(null);
     const [editingMedicineId, setEditingMedicineId] = useState(null);
     const [searchTerm, setSearchTerm] = useState(''); // State to hold the search input
-    const [searchBy, setSearchBy] = useState('name'); // State to select whether to search by name or use
+    const [selectedUse, setSelectedUse] = useState(''); // State to hold the selected use for filtering
 
     const { user } = useAuthContext();
 
     useEffect(() => {
-        const fetchMedicines = async () => {
+        const fetchMedicine = async () => {
             const response = await fetch('/api/medicine', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
@@ -22,12 +22,12 @@ const PharmacistViewMedicines = () => {
             const json = await response.json();
 
             if (response.ok) {
-                setMedicines(json);
+                setMedicine(json);
             }
         };
 
         if (user) {
-            fetchMedicines();
+            fetchMedicine();
         }
     }, [user]);
 
@@ -35,16 +35,16 @@ const PharmacistViewMedicines = () => {
         setEditingMedicineId(medicineId);
     };
 
-    // Filter the medicines based on the search term and selected search criteria
-    const filteredMedicines = medicines
-        ? medicines.filter((medicine) => {
+    const uniqueUses = [...new Set(medicine?.map((medicine) => medicine.use))];
+
+
+    const filteredMedicines = medicine
+        ? medicine.filter((medicine) => {
               const lowerCaseSearchTerm = searchTerm.toLowerCase();
-              if (searchBy === 'name') {
-                  return medicine.name.toLowerCase().includes(lowerCaseSearchTerm);
-              } else if (searchBy === 'use') {
-                  return medicine.use.toLowerCase().includes(lowerCaseSearchTerm);
-              }
-              return false;
+              return (
+                  (medicine.use === selectedUse || selectedUse === '') &&
+                  medicine.name.toLowerCase().includes(lowerCaseSearchTerm)
+              );
           })
         : [];
 
@@ -53,16 +53,23 @@ const PharmacistViewMedicines = () => {
             <div className="search-bar">
                 <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search by Name..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <div>
+                    Use: 
+                </div>
                 <select
-                    value={searchBy}
-                    onChange={(e) => setSearchBy(e.target.value)}
+                    value={selectedUse}
+                    onChange={(e) => setSelectedUse(e.target.value)}
                 >
-                    <option value="name">Search by Name</option>
-                    <option value="use">Search by Use</option>
+                    <option value="">All Uses</option>
+                    {uniqueUses.map((use) => (
+                        <option key={use} value={use}>
+                            {use}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className="medicine">
@@ -82,4 +89,5 @@ const PharmacistViewMedicines = () => {
     );
 };
 
-export default PharmacistViewMedicines;
+export default PharmacistViewMedicine;
+

@@ -11,13 +11,17 @@ import AdminViewApprovalPharmacists from './pages/Admin/AdminViewApprovalPharmac
 import AdminViewAdmins from './pages/Admin/AdminViewAdmins';
 import AdminViewPatients from './pages/Admin/AdminViewPatients';
 import AdminViewMedicine from './pages/Admin/AdminViewMedicine';
+import AdminChangePassword from './pages/Admin/AdminChangePassword';
 
 import PatientHome from './pages/Patient/PatientHome';
 import PatientViewMedicine from './pages/Patient/PatientViewMedicine';
+import PatientChangePassword from './pages/Patient/PatientChangePassword';
 
 import PharmacistHome from './pages/Pharmacist/PharmacistHome';
+import NonApprovedPharmacist from './pages/Pharmacist/NonApprovedPharmacist';
 import PharmacistViewMedicine from './pages/Pharmacist/PharmacistViewMedicine';
 import MedicineForm from './components/Pharmacist/MedicineForm';
+import PharmacistChangePassword from './pages/Pharmacist/PharmacistChangePassword';
 
 
 import Navbar from './components/Navbar';
@@ -68,13 +72,25 @@ function App() {
               path="/admin-view-medicine"
               element={<AdminViewMedicine />}
             />
+            <Route
+              path="/admin-change-password"
+              element={<AdminChangePassword />}
+            />
              <Route
               path="/patient-home"
               element={<PatientHome />}
             />
              <Route
+              path="/not-approved-pharmacist"
+              element={<NonApprovedPharmacist/>}
+            />
+             <Route
               path="/patient-view-medicine"
               element={<PatientViewMedicine />}
+            />
+              <Route
+              path="/patient-change-password"
+              element={<PatientChangePassword />}
             />
              <Route
               path="/pharmacist-home"
@@ -83,6 +99,10 @@ function App() {
              <Route
               path="/pharmacist-view-medicine"
               element={<PharmacistViewMedicine />}
+            />
+              <Route
+              path="/pharmacist-change-password"
+              element={<PharmacistChangePassword />}
             />
               <Route
               path="/medicine-form"

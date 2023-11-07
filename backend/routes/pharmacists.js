@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getApprovalPharmacists, getPharmacists, getPharmacist, deletePharmacist, updatePharmacist, signupPharmacist, loginPharmacist } = require('../controllers/pharmacistController')
+const { getApprovalPharmacists, getPharmacists, getPharmacist, deletePharmacist, updatePharmacist,updatePharmacistPassword, signupPharmacist, loginPharmacist } = require('../controllers/pharmacistController')
 
 
 //Get pharmacists that are still not approved
@@ -23,5 +23,8 @@ router.delete('/:id', deletePharmacist)
 
 //Update a pharmacist
 router.patch('/:id', updatePharmacist)
+
+router.patch('/changepassword/:id', updatePharmacistPassword)
+
 
 module.exports = router

@@ -1,6 +1,6 @@
 const express= require('express')
 const router= express.Router()
-const {createAdmin,getAdmins,getAdmin,deleteAdmin,updateAdmin,signupAdmin,loginAdmin} = require('../controllers/adminController')
+const {createAdmin,getAdmins,getAdmin,deleteAdmin,updateAdmin,updateAdminPassword,signupAdmin,loginAdmin} = require('../controllers/adminController')
 
 
 
@@ -24,5 +24,8 @@ const {createAdmin,getAdmins,getAdmin,deleteAdmin,updateAdmin,signupAdmin,loginA
 
  //Update an admin
   router.patch('/:id',updateAdmin)
+
+  router.patch('/changepassword/:id', updateAdminPassword)
+
 
 module.exports= router

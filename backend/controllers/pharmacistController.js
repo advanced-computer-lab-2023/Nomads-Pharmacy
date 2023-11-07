@@ -4,7 +4,7 @@ require('dotenv').config()
  const mongoose= require('mongoose')
  const jwt= require('jsonwebtoken')
  const bcrypt = require('bcrypt')
- 
+ const validator= require('validator')
 
 
 
@@ -120,6 +120,32 @@ const signupPharmacist= async (req,res) => {
     }
 
 }
+const updatePharmacistPassword = async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body; // Get the new password from the request body
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such pharmacist' });
+    }
+
+    if (!validator.isStrongPassword(password)) {
+        return res.status(400).json({ error: 'Password is not strong enough' });
+    }
+
+    const salt= await bcrypt.genSalt(10)
+    const hash= await bcrypt.hash(password,salt)
+
+    const pharmacist = await Pharmacist.findByIdAndUpdate(
+        { _id: id },
+        { password:hash } // Update the pharmacist's password
+    );
+
+    if (!pharmacist) {
+        return res.status(404).json({ error: 'No such pharmacist' });
+    }
+
+    res.status(200).json(pharmacist);
+};
 
 module.exports= {
     getApprovalPharmacists,
@@ -127,6 +153,7 @@ module.exports= {
     getPharmacist,
     deletePharmacist,
     updatePharmacist,
+    updatePharmacistPassword,
     signupPharmacist,
     loginPharmacist
 }

@@ -10,6 +10,11 @@ const AdminHome = () => {
         <button>View Medicine</button>
         </Link>
       </div>
+      <div className="home-button">
+        <Link to="/patient-change-password">
+          <button>Change Password</button>
+        </Link>
+      </div>
     </div>
 
   )

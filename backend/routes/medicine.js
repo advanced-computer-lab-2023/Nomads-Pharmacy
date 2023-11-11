@@ -11,9 +11,7 @@ const requireAuthPatient = require('../middleware/requireAuthPatient')
 
 
 //require Auth for all medicine routes
- router.use(requireAuthPharmacist)
- router.use(requireAuthAdmin)
- router.use(requireAuthPatient)
+
 
  
  const multer = require('multer');

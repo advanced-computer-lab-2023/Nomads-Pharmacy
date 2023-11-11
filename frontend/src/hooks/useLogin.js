@@ -37,7 +37,7 @@ export const useLogin = () => {
                 if (patientResponse.ok) {
                     //save the user to local storage 
                     localStorage.setItem('user', JSON.stringify(patientJson))
-
+                    console.log('PAT',JSON.parse(localStorage.getItem('user')).id)
                     //update the auth context
                     dispatch({ type: 'LOGIN', payload: patientJson })
 

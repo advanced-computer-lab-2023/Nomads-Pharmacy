@@ -227,3 +227,17 @@ padding-right: 50px;
  .date-date{
   padding-right: 30px;
  }
+ /* Add to Cart button style */
+.add-to-cart-button {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cart-quantity {
+  color: red; /* Change the color to your desired value */
+  font-weight: bold; /* Optionally, you can make it bold */
+  margin-left: 10px; /* Adjust the margin to separate it from the "Add to Cart" button */
+}

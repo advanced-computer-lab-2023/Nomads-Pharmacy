@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const validator= require('validator')
 
 
+
 const Schema = mongoose.Schema
 
 const patientSchema = new Schema({
@@ -51,7 +52,24 @@ const patientSchema = new Schema({
             type: Number,
             required: true
         }
-    }
+    },
+    cart: [
+        {
+            medicine: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Medicine', 
+                required: true
+            },
+            quantity: { type: Number, required: true },
+            price: { type: Number, default: 0 }
+        }
+    ],
+    addresses: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Address',
+        },
+      ],
 }, { timestamps: true });
 
 

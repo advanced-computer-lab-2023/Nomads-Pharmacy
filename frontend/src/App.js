@@ -27,6 +27,8 @@ import PharmacistChangePassword from './pages/Pharmacist/PharmacistChangePasswor
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import CheckoutPage from './pages/Patient/CheckoutPage';
+import OrdersPage from './pages/Patient/OrdersPage';
 
 
 function App() {
@@ -87,6 +89,14 @@ function App() {
              <Route
               path="/patient-view-medicine"
               element={<PatientViewMedicine />}
+            />
+            <Route
+              path="/checkout"
+              element={<CheckoutPage />}
+            />
+             <Route
+              path="/orders"
+              element={<OrdersPage />}
             />
               <Route
               path="/patient-change-password"

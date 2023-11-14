@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MedicineDetails from '../../components/Patient/MedicineDetails';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import axios from 'axios';
+import medicineModel from '../../../../backend/models/medicineModel';
 
 const PatientViewMedicine = () => {
   const [medicine, setMedicine] = useState([]);
@@ -70,9 +71,48 @@ const PatientViewMedicine = () => {
       med.name.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
-  const addToCart = async (medicineId, quantity, price) => {
-  
-    
+  const addToCart = async (medicineId, quantity, price) => { 
+
+    try{
+      const userId= req.user._id;
+      const medicineId = req.params.medicineId;
+      const quantity= req.body.quantity || 1; // Default is 1 
+
+    // Check if the medicine is already in the cart for a specific user
+    const existingItemCart = await cartItem.findById({ userId , medicineId});
+
+    // Retrive Medicine details
+    const medicine= await medicineModel.findById(medicineId);
+
+    if(!medicine){
+      return res.status(404).jason({
+       message: 'Medicine is not found', 
+       success: false});
+      }
+
+  if(existingItemCart){
+    // Update the quantity and calculate price if exists 
+    if(medicine.quantity - existingItemCart.quantity >= quantity){
+      existingItemCart.quantity += quantity;
+    }else{
+      return res.status(400).json({message: ' Out of stoke ', success: false });
+    }
+    existingItemCart.price = medicine.price; // Calculate new price
+    await existingItemCart.save();
+
+    res.json({existingItemCart , success: false  });
+  } else{
+    // Create new cart item and calculate the price
+    const newItemCart = newItemCart({ userId, medicineId, quantity});
+    newItemCart.price = medicine.price; 
+    await newItemCart.save();
+    res.json({ newItemCart , success: false});
+   }
+} catch(error){
+  console.error('Cant add to Cart', error);
+  res.status(500).json({error: 'Server Error ', success: false });
+} 
+  }
 
 
     if (localStorage.getItem('cart')){
